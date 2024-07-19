@@ -4,7 +4,7 @@ config/*
 libs/*
 logs/*
 site-docs/*
-src/config.json
+kafka/src/config.json
 
 # Log file
 *.log
