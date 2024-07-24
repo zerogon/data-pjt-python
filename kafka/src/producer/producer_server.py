@@ -11,7 +11,7 @@ config_path = os.path.join(current_dir, '..', 'config.json')  # 상위 디렉토
 # 설정 파일을 읽어서 서버 주소 가져오기
 with open(config_path, 'r') as f:
     config = json.load(f)
-    server_address = config.get('kafka_server', 'localhost:9092')
+    server_address = config.get('kafka', {}).get('kafka_server', 'localhost:9092')
 
 
 # Kafka 프로듀서 설정

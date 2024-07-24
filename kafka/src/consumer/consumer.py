@@ -3,50 +3,40 @@ import os
 from kafka import KafkaConsumer
 from hdfs import InsecureClient
 
-# 상위 폴더의 config.json 파일 경로 설정
-CONFIG_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'config.json')
+# 설정 파일 경로
+current_dir = os.path.dirname(os.path.abspath(__file__))
+config_path = os.path.join(current_dir, '..', 'config.json')
 
-def load_config():
-    """config.json 파일 로드 함수"""
-    with open(CONFIG_PATH, 'r') as file:
-        config = json.load(file)
-    return config
+with open(config_path, 'r') as f:
+    config = json.load(f)
+    kafka_server = config.get('kafka', {}).get('kafka_server', 'localhost:9092')
+    hdfs_url = config.get('hdfs', {}).get('hdfs_url', 'http://localhost:50070')
+    hdfs_user = config.get('hdfs', {}).get('user', 'ec2-user')
 
-def create_kafka_consumer(config):
-    """Kafka Consumer 생성 함수"""
-    kafka_config = config['kafka']
-    consumer = KafkaConsumer(
-        'hello.kafka', 
-        bootstrap_servers=kafka_config['bootstrap_servers'],
-        group_id=kafka_config['group_id'],
-        auto_offset_reset='earliest'
-    )
-    return consumer
+# Kafka 컨슈머 설정
+consumer = KafkaConsumer(
+    'hello.kafka',
+    bootstrap_servers=kafka_server,
+    auto_offset_reset='earliest',
+    enable_auto_commit=True,
+    group_id='hdfs',  # 그룹 ID 설정
+    value_deserializer=lambda x: json.loads(x.decode('utf-8'))
+)
 
-def create_hdfs_client(config):
-    """HDFS 클라이언트 생성 함수"""
-    hdfs_config = config['hdfs']
-    client = InsecureClient(hdfs_config['namenode'], user=hdfs_config['user'])
-    return client
+# HDFS 클라이언트 설정
+client = InsecureClient(hdfs_url, user=hdfs_user)
 
-def consume_messages(consumer, client):
-    """Kafka 메시지를 HDFS에 저장하는 함수"""
-    try:
-        for message in consumer:
-            print(f"Received message: {message.value.decode('utf-8')}")
-            # HDFS에 메시지 저장
-            with client.write('/user/hdfs/output.txt', overwrite=True) as writer:
-                writer.write(message.value)
-    except KeyboardInterrupt:
-        print("Consumer interrupted")
-    finally:
-        consumer.close()
+def write_to_hdfs(hdfs_path, data):
+    with client.write(hdfs_path, overwrite=True, encoding='utf-8') as writer:
+        writer.write(data)
 
-def main():
-    config = load_config()
-    consumer = create_kafka_consumer(config)
-    client = create_hdfs_client(config)
-    consume_messages(consumer, client)
+# Kafka 메시지 소비 및 HDFS로 데이터 적재
+for message in consumer:
+    message_value = message.value
+    hdfs_path = '/tmp/output.txt'  # HDFS 경로 설정 (필요에 따라 변경 가능)
 
-if __name__ == "__main__":
-    main()
+    # HDFS에 데이터 쓰기
+    write_to_hdfs(hdfs_path, json.dumps(message_value))
+    print(f"Data written to HDFS: {message_value}")
+
+# Note: For a real-world application, more sophisticated error handling and logging would be required.
