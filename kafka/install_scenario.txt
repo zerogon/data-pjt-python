@@ -1,0 +1,34 @@
+1.  java 설치
+	cd /usr/local
+	sudo wget https://github.com/AdoptOpenJDK/openjdk8-upstream-binaries/releases/download/jdk8u342-b07/OpenJDK8U-jdk_x64_linux_8u342b07.tar.gz
+	sudo chmod 755 OpenJDK8U-jdk_x64_linux_8u342b07.tar.gz ; sudo tar xvfz OpenJDK8U-jdk_x64_linux_8u342b07.tar.gz
+	sudo ln -s openjdk-8u342-b07 java
+	sudo vi /etc/profile
+		export JAVA_HOME=/usr/local/java
+		export PATH=$PATH:$JAVA_HOME/bin
+		export CLASSPATH=".
+	source /etc/profile
+	
+2. kafka 설치
+	cd ~
+	sudo wget https://archive.apache.org/dist/kafka/2.5.0/kafka_2.12-2.5.0.tgz
+	tar xvf kafka_2.12-2.5.0.tgz;ln -s kafka_2.12-2.5.0 kafka
+	sudo vi ~/.bashrc
+		export KAFKA_HEAP_OPTS="-Xmx400m -Xms400m"	
+	cd kafka
+	bin/kafka-topics.sh --create --bootstrap-server `IP`:9092 --topic hello.kafka
+	sudo vi confg/server.properties
+		advertised.listeners=PLAINTEXT://`IP`:9092
+		
+3. python 및 pip3 설치
+	sudo yum update -y
+	sudo yum install python3 -y
+	sudo yum install -y python3-pip
+	python3 --version
+	sudo pip3 install kafka-python
+
+4. kafka 실행
+	bin/zookeeper-server-start.sh -daemon config/zookeeper.properties
+	bin/kafka-server-start.sh -daemon config/server.properties
+
+5. config.json, producer.py 작성
