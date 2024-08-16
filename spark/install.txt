@@ -5,8 +5,8 @@
 	sudo ln -s openjdk-8u342-b07 java ; sudo rm OpenJDK8U-jdk_x64_linux_8u342b07.tar.gz 		
 2. python 및 pip3 설치
 	sudo yum update -y
-	sudo yum install python3 -y
-	sudo yum install -y python3-pip
+	sudo yum install python3 -y;sudo yum install -y python3-pip
+	
 	python3 --version	
 3. spakr 설치(cd /usr/local)
 	sudo wget https://dlcdn.apache.org/spark/spark-3.4.3/spark-3.4.3-bin-hadoop3.tgz
