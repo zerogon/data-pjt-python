@@ -16,8 +16,7 @@
 	sudo vi ~/.bashrc
 		export KAFKA_HEAP_OPTS="-Xmx400m -Xms400m"	
 	cd kafka
-	bin/kafka-topics.sh --create --bootstrap-server `IP`:9092 --topic hello.kafka
-	sudo vi confg/server.properties
+	sudo vi config/server.properties
 		advertised.listeners=PLAINTEXT://`IP`:9092
 		
 3. python 및 pip3 설치
@@ -31,4 +30,6 @@
 	bin/zookeeper-server-start.sh -daemon config/zookeeper.properties
 	bin/kafka-server-start.sh -daemon config/server.properties
 
+
+bin/kafka-topics.sh --create --bootstrap-server :9092 --topic hello.kafka
 5. config.json, producer.py 작성
