@@ -1,0 +1,30 @@
+1.  java 설치
+	cd /usr/local
+	sudo wget https://github.com/AdoptOpenJDK/openjdk8-upstream-binaries/releases/download/jdk8u342-b07/OpenJDK8U-jdk_x64_linux_8u342b07.tar.gz
+	sudo chmod 755 OpenJDK8U-jdk_x64_linux_8u342b07.tar.gz ; sudo tar xvfz OpenJDK8U-jdk_x64_linux_8u342b07.tar.gz
+	sudo ln -s openjdk-8u342-b07 java ; sudo rm OpenJDK8U-jdk_x64_linux_8u342b07.tar.gz 		
+2. python 및 pip3 설치
+	sudo yum update -y
+	sudo yum install python3 -y;sudo yum install -y python3-pip
+	
+	python3 --version	
+3. spakr 설치(cd /usr/local)
+	sudo wget https://dlcdn.apache.org/spark/spark-3.4.3/spark-3.4.3-bin-hadoop3.tgz
+	sudo tar -zxvf spark-3.4.3-bin-hadoop3.tgz -C /usr/local/
+	sudo mv spark-3.4.3-bin-hadoop3 /usr/local/spark ; sudo rm spark-3.4.3-bin-hadoop3.tgz
+4. 환경 셋팅	
+	sudo vi /etc/profile
+		export JAVA_HOME=/usr/local/java
+		export PATH=$PATH:$JAVA_HOME/bin
+		export CLASSPATH="."
+		
+		export SPARK_HOME=/usr/local/spark
+	sudo vi ~/.bashrc
+		export SPARK_HOME=/usr/local/spark
+		export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
+	source ~/.bashrc
+	source /etc/profile
+	
+	env | grep SPARK
+
+5. pyspark 실행

@@ -1,0 +1,7 @@
+wcRdd = sc.textFile(os.path.jon('input.txt')
+wcRdd1= wcRdd.flatMap(lambda x:x.split(' '))
+wcRdd2 = wcRdd1.map(lambda x:(x,1))
+wcRdd3 = wcRdd2.groupByKey()
+wcRdd4 = wcRdd3.mapValues(sum)
+
+wcRdd4.collect()
