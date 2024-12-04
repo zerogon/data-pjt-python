@@ -1,0 +1,13 @@
+# nginx 를 통해서 정적파일 제공을 위한 yml
+version: "3"
+services:
+  react:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+     - '80:80'
+    volumes:
+     - /usr/src/front/node_modules
+     - ./:/usr/src/front
+    stdin_open: true

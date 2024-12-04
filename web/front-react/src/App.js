@@ -14,7 +14,7 @@ function App() {
 
   return (
       <div style={{ textAlign: 'center', marginTop: '50px' }}>
-          <h1>React + Node.js</h1>
+          <h1>node</h1>
           <p>{message}</p>
       </div>
   );
