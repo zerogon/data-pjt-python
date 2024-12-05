@@ -5,7 +5,7 @@ libs/*
 logs/*
 site-docs/*
 kafka/src/config.json
-
+web/mysql/mysql_data
 # Log file
 *.log
 
