@@ -1,5 +1,4 @@
 const express = require('express');
-const cors = require('cors');
 const bodyParser = require('body-parser');
 const db = require('./db');
 
@@ -7,7 +6,6 @@ const db = require('./db');
 const app = express();
 const PORT = 5000;
 
-app.use(cors()); // React와 통신을 위해 CORS 허용
 
 // 테이블 생성하기 
 db.pool.query(`CREATE TABLE lists (
@@ -15,6 +13,7 @@ db.pool.query(`CREATE TABLE lists (
     value TEXT, 
     PRIMARY KEY (id)
 )`, (err, results, fileds) => {
+    console.log('err:  ', err)
     console.log('results', results)
 })
 

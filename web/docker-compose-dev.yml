@@ -26,7 +26,7 @@ services:
       - /usr/src/back/node_modules
       - ./back-node:/usr/src/back
     environment:
-      MYSQL_ROOT_PASSWORD: 200
+      MYSQL_ROOT_PASSWORD: dkansk123
       MYSQL_DATABASE: myapp
       MYSQL_HOST: mysql
       MYSQL_USER: root
@@ -42,5 +42,6 @@ services:
       - ./mysql/mysql_data:/var/lib/mysql
       - ./mysql/sqls/:/docker-entrypoint-initdb.d/
     environment:
-      MYSQL_ROOT_PASSWORD: 200
+      MYSQL_ROOT_PASSWORD: dkansk123
       MYSQL_DATABASE: myapp
+    user: "mysql"
