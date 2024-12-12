@@ -31,7 +31,7 @@ function App() {
 
   const submitHandler = (event) => {
     event.preventDefault();
-
+    console.log('value:', value)
     axios.post('/api/value', { value: value })
       .then(response => {
         if (response.data.success) {
@@ -55,7 +55,7 @@ function App() {
             <li key={index}>{list.value} </li>
           ))}
           <br />
-            안녕하세요.
+            안녕하세요22
           <form className="example" onSubmit={submitHandler}>
             <input
               type="text"
